@@ -12,7 +12,7 @@ public interface MemoriaDeInstrucoes {
 	 * @param $RS
 	 * @param $RT
 	 */
-	public void add(int $RD, int $RS, int $RT);
+	public void add(Registrador $RD, Registrador $RS, Registrador $RT);
 	
 	/**
 	 * rd = rs - rt
@@ -20,26 +20,26 @@ public interface MemoriaDeInstrucoes {
 	 * @param $RS
 	 * @param $RT
 	 */
-	public void sub(int $RD, int $RS, int $RT);
+	public void sub(Registrador $RD, Registrador $RS, Registrador $RT);
 	
 	/**
 	 * se rs < rt, rd = 1, senão rd = 0
 	 * @param $RS
 	 * @param $RD
 	 */
-	public void slt(int $RD, int $RS, int $RT);
+	public void slt(Registrador $RD, Registrador $RS, Registrador $RT);
 	
 	/**
 	 * PC = rs
 	 * @param $RS
 	 */
-	public void jr(int $RS);
+	public void jr(Registrador $RS);
 	
 	/**
 	 * Encerra a execução do programa
 	 * @param $HTL
 	 */
-	public void hlt(boolean $HTL);
+	public boolean hlt(boolean $HTL);
 	
 	//instruções, formato I
 	
@@ -49,7 +49,7 @@ public interface MemoriaDeInstrucoes {
 	 * @param $RS
 	 * @param $CONSTANTE
 	 */
-	public void addi(int $RD, int $RS, int $CONSTANTE);
+	public void addi(Registrador $RD, Registrador $RS, int $CONSTANTE);
 	
 	/**
 	 * se rs < constante, rt = 1, senão rt = 0
@@ -57,7 +57,7 @@ public interface MemoriaDeInstrucoes {
 	 * @param $RT
 	 * @param $CONSTANTE
 	 */
-	public void slti(int $RS, int $RT, int $CONSTANTE);
+	public void slti(Registrador $RS, Registrador $RT, int $CONSTANTE);
 	
 	/**
 	 * rt = MEM[rs + imediato]
@@ -65,7 +65,7 @@ public interface MemoriaDeInstrucoes {
 	 * @param $RS
 	 * @param $IMEDIATO
 	 */
-	public void lw(int $RT, int $RS, int $IMEDIATO);
+	public void lw(Registrador $RT, Registrador $RS, int $IMEDIATO);
 	
 	/**
 	 * MEN[rs + imediato] = rt
@@ -73,34 +73,32 @@ public interface MemoriaDeInstrucoes {
 	 * @param $IMEDIATO
 	 * @param $RT
 	 */
-	public void sw(int $RS, int $IMEDIATO, int $RT);
+	public void sw(Registrador $RS, int $IMEDIATO, Registrador $RT);
 	
 	/**
 	 * se rs == rt então PC = PC + 4 + (imediato x 4)
 	 * @param $RS
 	 * @param $RT
 	 */
-	public void beq(int $RS, int $RT);
+	public void beq(Registrador $RS, Registrador $RT, int $IMEDIATO);
 	
 	/**
 	 * se rs != rt então PC = PC + 4 + (imediato x 4)
 	 * @param $RS
 	 * @param $RT
 	 */
-	public void bne(int $RS, int $RT);
+	public void bne(Registrador $RS, Registrador $RT, int $IMEDIATO);
 	
 	//instruções, formato J
 	
 	/**
 	 * PC = (PC + 4)31-28|(endereco x 4)
-	 * @param $PC
+	 * @param $ENDERECO
 	 */
-	public void j(int $PC);
+	public void j(int $ENDERECO);
 	
 	/**
 	 * ra = PC + 4; PC = (PC + 4)31-28|(endereco x 4)
-	 * @param $RA
-	 * @param $PC
 	 */
-	public void jal(int $RA, int $PC);
+	public void jal();
 }

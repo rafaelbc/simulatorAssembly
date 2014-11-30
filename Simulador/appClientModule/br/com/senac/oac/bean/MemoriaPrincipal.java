@@ -1,5 +1,8 @@
 package br.com.senac.oac.bean;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Memória principal.
  * 
@@ -8,21 +11,25 @@ package br.com.senac.oac.bean;
  */
 public class MemoriaPrincipal {
 	
-	private int[] pilha;
+	List<String> memPrincipal;
 
 	public MemoriaPrincipal(){
-		setPilha(new int[100]);
-	}
-	public MemoriaPrincipal(int sizePilha){
-		setPilha(new int[sizePilha]);
+		setMemPrincipal(new ArrayList<String>());
 	}
 	
-	public int[] getPilha() {
-		return pilha;
+	public List<String> getMemPrincipal() {
+		return memPrincipal;
 	}
-
-	public void setPilha(int[] pilha) {
-		this.pilha = pilha;
+	private void setMemPrincipal(List<String> memPrincipal) {
+		this.memPrincipal = memPrincipal;
+	}
+	
+	public void addMemPrincipal(String s){
+		this.memPrincipal.add(s);
+	}
+	
+	public void addMemPrincipal(int indice, String s){
+		this.memPrincipal.add(indice, s);
 	}
 
 }

@@ -27,7 +27,7 @@ public class GenericDAO {
 		List<String> list = new ArrayList<String>();
 		
 		try{
-			br = new BufferedReader(new FileReader("soma.lmq"));
+			br = new BufferedReader(new FileReader("somavetor.lmq"));
 			//percorre o arquivo e injeta no List
 			while (br.ready())
 				list.add(br.readLine());
