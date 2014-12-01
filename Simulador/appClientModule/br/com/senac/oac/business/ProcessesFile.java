@@ -39,13 +39,15 @@ public class ProcessesFile {
 		 
 		//finaly (lixo) 
 		lineBinary = null;
-		
+		list = null;
 		
 		boolean next = true;
 		while(next){
 			int PC =  Convert.toBinaryDecimal(alu.getMemRegister().getListRegistrador().get(32).getValor());//get PC
-			System.out.println("Interando... "+PC);
 			String line = alu.getMemPrincipal().getMemPrincipal().get(PC);//get instrução
+			
+			//print status
+			Status.printStatusInit(alu);
 			
 			char tipo = tipoOp(line);
 			switch (tipo) {
@@ -57,22 +59,27 @@ public class ProcessesFile {
 					alu.add(identificaReg(get$RD(line)), 
 							identificaReg(get$RS(line)), 
 							identificaReg(get$RT(line)));
+					Status.printStatus(alu);
 					break;
 				case 2://sub
 					alu.sub(identificaReg(get$RD(line)), 
 							identificaReg(get$RS(line)),
 							identificaReg(get$RT(line)));
+					Status.printStatus(alu);
 					break;
 				case 3://slt
 					alu.slt(identificaReg(get$RD(line)),
 							identificaReg(get$RS(line)),
 							identificaReg(get$RT(line)));
+					Status.printStatus(alu);
 					break;
 				case 4://jr
 					alu.jr(identificaReg(get$RS(line)));
+					Status.printStatus(alu);
 					break;
 				case 5://hlt
 					next = !alu.hlt(true);
+					Status.printStatus(alu);
 					break;
 				default:
 					System.err.println("Tipo de função inválida.");
@@ -88,31 +95,37 @@ public class ProcessesFile {
 					alu.addi(identificaReg(get$RT(line)),
 							identificaReg(get$RS(line)),
 							Convert.toBinaryDecimal(getCONSTANTE(line)));
+					Status.printStatus(alu);
 					break;
 				case 2://slti
 					alu.slti(identificaReg(get$RT(line)),
 							identificaReg(get$RT(line)),
 							Convert.toBinaryDecimal(getCONSTANTE(line)));
+					Status.printStatus(alu);
 					break;
 				case 3://lw
 					alu.lw(identificaReg(get$RT(line)),
 							identificaReg(get$RS(line)),
 							Convert.toBinaryDecimal(getCONSTANTE(line)));
+					Status.printStatus(alu);
 					break;
 				case 4://sw
 					alu.sw(identificaReg(get$RS(line)),
 							Convert.toBinaryDecimal(getCONSTANTE(line)),
 							identificaReg(get$RT(line)));
+					Status.printStatus(alu);
 					break;
 				case 5://beq
 					alu.beq(identificaReg(get$RS(line)),
 							identificaReg(get$RT(line)),
 							Convert.toBinaryDecimal(getCONSTANTE(line)));
+					Status.printStatus(alu);
 					break;
 				case 6://bne
 					alu.bne(identificaReg(get$RS(line)),
 							identificaReg(get$RT(line)),
 							Convert.toBinaryDecimal(getCONSTANTE(line)));
+					Status.printStatus(alu);
 					break;
 				default:
 					System.err.println("Tipo de operação inválida.");
@@ -125,9 +138,11 @@ public class ProcessesFile {
 				switch (opJ) {
 				case 1://j
 					alu.j(Convert.toBinaryDecimal(endereco(line)));
+					Status.printStatus(alu);
 					break;
 				case 2://jal
 					alu.jal();
+					Status.printStatus(alu);
 					break;
 				default:
 					System.err.println("Tipo de operação inválida.");
@@ -144,17 +159,19 @@ public class ProcessesFile {
 			}
 			
 		}
-		for(Registrador r : alu.getMemRegister().getListRegistrador()){
-			if(!r.getValor().isEmpty()){
-				System.out.println(r.getRegistrador());
-				System.out.println(r.getRepresentacao());
-				System.out.println( r.getValor());
-			}
-		}
+//		for(Registrador r : alu.getMemRegister().getListRegistrador()){
+//			if(!r.getValor().isEmpty()){
+//				System.out.println(r.getRegistrador());
+//				System.out.println(r.getRepresentacao());
+//				System.out.println( r.getValor());
+//			}
+//		}
+//		
+//		for(int i=0; i < alu.getMemPrincipal().getMemPrincipal().size(); i++){
+//			System.out.println(alu.getMemPrincipal().getMemPrincipal().get(i));
+//		}
 		
-		for(int i=0; i < alu.getMemPrincipal().getMemPrincipal().size(); i++){
-			System.out.println(alu.getMemPrincipal().getMemPrincipal().get(i));
-		}
+		Status.printStatusFinal(alu);
 	}
 	/**
 	 * Calcula endereço

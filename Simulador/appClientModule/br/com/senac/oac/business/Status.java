@@ -1,30 +1,55 @@
 package br.com.senac.oac.business;
+
+import br.com.senac.oac.bean.Registrador;
+
 /**
  * Print status all system ALU
  */
 public class Status {
 	
-	/**
-	 * @code public static void printStatus(ALU alu){}
-	 * @param alu
-	 * Imprimir status geral do sistema
-	 */
-	public static void printStatus(ALU alu){
-		
-		System.out.println("/*====================================STATUS====================================*/ ");
-		System.out.println();
-//		for(int i = 0; i < alu.getMemPrincipal().getPilha().length; i++){
-//			System.out.printf("Tamanho da pilha (Bytes) %d \n", alu.getMemPrincipal().getPilha().length);
-////			for(int d : alu.getMemPrincipal().getPilha())
-////				System.out.printf("%d \t", d);
-//		}
-		
-		
-		
-		
-		System.out.println("/*==================================FIM STATUS==================================*/ ");
+	private static int nIntrucoesExe = 0;
+	
+	private static void addNIntrucaoExe(){
+		nIntrucoesExe++;
+	}
+	private static int getNIntrucoesExe(){
+		return nIntrucoesExe;
 	}
 	
+	private static double porcentagemNIntrucoes(){
+		double r = (double) (getNIntrucoesExe()*100.00)/13.00; 
+		return r;
+	}
+	
+	public static void printStatusInit(ALU alu){
+		
+		System.out.print("/*====================================STATUS====================================*/\n\n");
+		
+		
+		System.out.println("Conteúdo da memória...");
+		for(String s : alu.getMemPrincipal().getMemPrincipal())
+			System.out.printf("%s\n", s);
+		
+		System.out.println("Registradores...");
+		for(Registrador r : alu.getMemRegister().getListRegistrador())
+			System.out.printf("%s\t%s\t%s\n", 
+					(r.getRepresentacao() == null) ? " " : r.getRepresentacao(), 
+					r.getRegistrador(),
+					r.getValor());
+		
+	}
+	
+	
+	public static void printStatus(ALU alu){
+		printStatusInit(alu);
+		addNIntrucaoExe();
+	}
+	
+	public static void printStatusFinal(ALU alu){
+		printStatusInit(alu);
+		System.out.printf("\nO total de instruções executadas é %d.", getNIntrucoesExe());
+		System.out.printf("\n%.2f%% de instruções foram executadas!\n", porcentagemNIntrucoes());
+	}
 	
 
 }
