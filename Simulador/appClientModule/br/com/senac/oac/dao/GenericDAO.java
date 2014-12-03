@@ -4,6 +4,7 @@
 package br.com.senac.oac.dao;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -21,13 +22,13 @@ public class GenericDAO {
 	 * @code public List<String> readFile(){}
 	 * @return List<String>
 	 */
-	public List<String> readFile(){
+	public List<String> readFile(File file){
 		
 		BufferedReader br;
 		List<String> list = new ArrayList<String>();
 		
 		try{
-			br = new BufferedReader(new FileReader("somavetor.lmq"));
+			br = new BufferedReader(new FileReader(file));
 			//percorre o arquivo e injeta no List
 			while (br.ready())
 				list.add(br.readLine());

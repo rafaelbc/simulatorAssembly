@@ -1,11 +1,16 @@
 package br.com.senac.oac.business;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.JFrame;
+import javax.swing.JTextArea;
 
 import br.com.senac.oac.bean.MemoriaPrincipal;
 import br.com.senac.oac.bean.Registrador;
 import br.com.senac.oac.dao.GenericDAO;
+import br.com.senac.oac.dao.OpenFile;
 
 /**
  * @deprecated Processa informação do arquivo
@@ -21,9 +26,9 @@ public class ProcessesFile {
 	 * @deprecated Processa informações do arquivo. 
 	 */
 	@SuppressWarnings("static-access")
-	public void processaFile(){
+	public void processaFile(File file){
 
-		 List<String> list = genericDAO.readFile();
+		 List<String> list = genericDAO.readFile(file);
 		 List<String> lineBinary = new ArrayList<String>();			 
 		 
 		 
@@ -59,27 +64,37 @@ public class ProcessesFile {
 					alu.add(identificaReg(get$RD(line)), 
 							identificaReg(get$RS(line)), 
 							identificaReg(get$RT(line)));
+					
 					Status.printStatus(alu);
+					Status.setpInstrucaoExe(0);
 					break;
 				case 2://sub
 					alu.sub(identificaReg(get$RD(line)), 
 							identificaReg(get$RS(line)),
 							identificaReg(get$RT(line)));
+					
 					Status.printStatus(alu);
+					Status.setpInstrucaoExe(1);
 					break;
 				case 3://slt
 					alu.slt(identificaReg(get$RD(line)),
 							identificaReg(get$RS(line)),
 							identificaReg(get$RT(line)));
+					
 					Status.printStatus(alu);
+					Status.setpInstrucaoExe(2);
 					break;
 				case 4://jr
 					alu.jr(identificaReg(get$RS(line)));
+					
 					Status.printStatus(alu);
+					Status.setpInstrucaoExe(3);
 					break;
 				case 5://hlt
 					next = !alu.hlt(true);
+					
 					Status.printStatus(alu);
+					Status.setpInstrucaoExe(12);
 					break;
 				default:
 					System.err.println("Tipo de função inválida.");
@@ -95,37 +110,49 @@ public class ProcessesFile {
 					alu.addi(identificaReg(get$RT(line)),
 							identificaReg(get$RS(line)),
 							Convert.toBinaryDecimal(getCONSTANTE(line)));
+					
 					Status.printStatus(alu);
+					Status.setpInstrucaoExe(4);
 					break;
 				case 2://slti
 					alu.slti(identificaReg(get$RT(line)),
 							identificaReg(get$RT(line)),
 							Convert.toBinaryDecimal(getCONSTANTE(line)));
+					
 					Status.printStatus(alu);
+					Status.setpInstrucaoExe(5);
 					break;
 				case 3://lw
 					alu.lw(identificaReg(get$RT(line)),
 							identificaReg(get$RS(line)),
 							Convert.toBinaryDecimal(getCONSTANTE(line)));
+					
 					Status.printStatus(alu);
+					Status.setpInstrucaoExe(6);
 					break;
 				case 4://sw
 					alu.sw(identificaReg(get$RS(line)),
 							Convert.toBinaryDecimal(getCONSTANTE(line)),
 							identificaReg(get$RT(line)));
+					
 					Status.printStatus(alu);
+					Status.setpInstrucaoExe(7);
 					break;
 				case 5://beq
 					alu.beq(identificaReg(get$RS(line)),
 							identificaReg(get$RT(line)),
 							Convert.toBinaryDecimal(getCONSTANTE(line)));
+					
 					Status.printStatus(alu);
+					Status.setpInstrucaoExe(8);
 					break;
 				case 6://bne
 					alu.bne(identificaReg(get$RS(line)),
 							identificaReg(get$RT(line)),
 							Convert.toBinaryDecimal(getCONSTANTE(line)));
+					
 					Status.printStatus(alu);
+					Status.setpInstrucaoExe(9);
 					break;
 				default:
 					System.err.println("Tipo de operação inválida.");
@@ -138,11 +165,15 @@ public class ProcessesFile {
 				switch (opJ) {
 				case 1://j
 					alu.j(Convert.toBinaryDecimal(endereco(line)));
+					
 					Status.printStatus(alu);
+					Status.setpInstrucaoExe(10);
 					break;
 				case 2://jal
 					alu.jal();
+					
 					Status.printStatus(alu);
+					Status.setpInstrucaoExe(11);
 					break;
 				default:
 					System.err.println("Tipo de operação inválida.");

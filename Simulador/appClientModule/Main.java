@@ -1,12 +1,11 @@
-import br.com.senac.oac.business.ProcessesFile;
+import javax.swing.JFrame;
 
-@SuppressWarnings("deprecation")
+import br.com.senac.oac.dao.OpenFile;
+
 public class Main {
 	public static void main(String[] args) {
-		
-		ProcessesFile process = new ProcessesFile();
-		
-		process.processaFile();
+		OpenFile app = new OpenFile();
+		app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 	}
 
